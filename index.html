@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let arr=["Rock", "Paper", "Scissor"];
+        function getComputerChoice(){
+            return arr[(Math.floor(Math.random()*arr.length))];
+        }
+
+        function getPlayerChoice(){
+            return prompt("Enter your choice:");
+        }
+
+        function playRound(playerSelection, computerSelection){
+            if(playerSelection=='rock'){
+                if(computerSelection=='Rock'){
+                    return "Draw";
+                }
+                else if(computerSelection=='Paper'){
+                    return "You Win";
+                }
+                else{
+                    return "You Lose";
+                }
+            }
+            else if(playerSelection=='paper'){
+                if(computerSelection=='Rock'){
+                    return "You Lose";
+                }
+                else if(computerSelection=='Paper'){
+                    return "Draw";
+                }
+                else{
+                    return "You Win";
+                }
+            }
+            else{
+                if(computerSelection=='Rock'){
+                    return "You Win";
+                }
+                else if(computerSelection=='Paper'){
+                    return "You Lose";
+                }
+                else{
+                    return "Draw";
+                }
+            }
+        }
+
+        function playGame(){
+            let playerScore = 0;
+            let computerScore = 0;
+            for(let i=0;i<5;i++){
+                let computerSelection = getComputerChoice();
+                let playerSelection = getPlayerChoice().toLowerCase();
+
+                alert(playRound(playerSelection, computerSelection));
+                let score = playRound(playerSelection, computerSelection).toLowerCase();
+                
+                if(score=='you win'){
+                    playerScore++;
+                }
+                else if(score=='you lose'){
+                    computerScore++;
+                }
+            }
+            if(playerScore>computerScore){
+                alert("Player is the winner");
+            }
+            else if(playerScore<computerScore){
+                alert("Computer is the winner");
+            }
+            else{
+                alert("It's a draw");
+            }
+        }
+
+        playGame();
+
+    </script>
+</body>
+</html>
