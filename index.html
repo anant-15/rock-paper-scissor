@@ -6,82 +6,63 @@
     <title>Document</title>
 </head>
 <body>
+    <div>
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissor">Scissor</button>
+    </div>
+    <div id="results"></div> 
+
     <script>
+        let playerScore=0;
+        let computerScore=0;
         let arr=["Rock", "Paper", "Scissor"];
         function getComputerChoice(){
             return arr[(Math.floor(Math.random()*arr.length))];
         }
 
-        function getPlayerChoice(){
-            return prompt("Enter your choice:");
-        }
+        const btn = document.querySelectorAll('button');
+        const resultsDiv = document.getElementById('results');
 
-        function playRound(playerSelection, computerSelection){
-            if(playerSelection=='rock'){
-                if(computerSelection=='Rock'){
-                    return "Draw";
-                }
-                else if(computerSelection=='Paper'){
-                    return "You Win";
+        btn.forEach(button => {
+            button.addEventListener('click', function(){
+                playRound(button.id);
+            });
+        });
+
+        function playRound(playerSelection){
+            let computerSelection=getComputerChoice();
+            let result;
+
+            if (playerSelection.toLowerCase() === computerSelection.toLowerCase()) {
+                result = "Draw";
+            } else if (
+                (playerSelection.toLowerCase() === "rock" && computerSelection.toLowerCase() === "scissor") ||
+                (playerSelection.toLowerCase() === "paper" && computerSelection.toLowerCase() === "rock") ||
+                (playerSelection.toLowerCase() === "scissor" && computerSelection.toLowerCase() === "paper")
+            ) {
+                result = "You Win";
+                playerScore++;
+            } else {
+                result = "You Lose";
+                computerScore++;
+            }
+
+            resultsDiv.innerHTML = `Player: ${playerScore} - Computer: ${computerScore}<br>Result: ${result}`;
+
+            if(playerScore==5 || computerScore==5){
+                if(computerScore>playerScore){
+                    resultsDiv.innerHTML+=`<br>Computer wins`;
                 }
                 else{
-                    return "You Lose";
+                    resultsDiv.innerHTML+=`<br>Player wins!`;
                 }
+                computerScore=0;
+                playerScore=0;
             }
-            else if(playerSelection=='paper'){
-                if(computerSelection=='Rock'){
-                    return "You Lose";
-                }
-                else if(computerSelection=='Paper'){
-                    return "Draw";
-                }
-                else{
-                    return "You Win";
-                }
-            }
-            else{
-                if(computerSelection=='Rock'){
-                    return "You Win";
-                }
-                else if(computerSelection=='Paper'){
-                    return "You Lose";
-                }
-                else{
-                    return "Draw";
-                }
-            }
+
+
         }
-
-        function playGame(){
-            let playerScore = 0;
-            let computerScore = 0;
-            for(let i=0;i<5;i++){
-                let computerSelection = getComputerChoice();
-                let playerSelection = getPlayerChoice().toLowerCase();
-
-                alert(playRound(playerSelection, computerSelection));
-                let score = playRound(playerSelection, computerSelection).toLowerCase();
-                
-                if(score=='you win'){
-                    playerScore++;
-                }
-                else if(score=='you lose'){
-                    computerScore++;
-                }
-            }
-            if(playerScore>computerScore){
-                alert("Player is the winner");
-            }
-            else if(playerScore<computerScore){
-                alert("Computer is the winner");
-            }
-            else{
-                alert("It's a draw");
-            }
-        }
-
-        playGame();
-
     </script>
 </body>
 </html>
